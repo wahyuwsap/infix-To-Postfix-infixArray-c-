@@ -10,7 +10,7 @@ bool Operator(char c){
 
 int precedence(char op) {
     if (op == '+' || op == '-') return 1;
-    if (op == '*' || op == '/' || op '%') return 2;
+    if (op == '*' || op == '/' || op == '%') return 2;
     return 0;
 }   
 
@@ -100,10 +100,7 @@ int main(){
     vector<string> infix = KataInfix(input);
     vector<string> postfix = KataPostfix(infix);
     
-    for(const string& hasil : infix){
-        cout << token << " ";
-
-        
+    for(const string& hasil: infix){
         cout << hasil << " ";
         
     }
