@@ -80,18 +80,27 @@ while (!opStack.empty()) {
 return postfix;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+int evaluatepostfix(const vector<string>& postfix){
+    stack<int> evalstack;
+    
+    for(const string& token : postfix) {
+    if (isdigit(token[0]) || (token.length() > 1 && isdigit(token[1]))){
+        evalstack.push(stoi(token));
+    }else{
+        int b = evalstack.top();
+        evalstack.pop();
+        int a = evalstack.top();
+        evalstack.pop();
+        
+        if(token == "+") evalstack.push(a + b );
+        else if (token == "-") evalstack.push(a - b);
+        else if (token == "*") evalstack.push(a * b);
+        else if (token == "/") evalstack.push(a / b);
+        else if (token == "%") evalstack.push(a % b);
+    }
+  }
+  return evalstack.top();  
+} 
 
 int main(){
     string input;
@@ -100,8 +109,8 @@ int main(){
     vector<string> infix = KataInfix(input);
     vector<string> postfix = KataPostfix(infix);
     
-    for(const string& token: infix){
-        cout << token << " ";
+   int result = evaluatepostfix(postfix);
+    cout << result << endl;
         
     }
     cout << endl;
