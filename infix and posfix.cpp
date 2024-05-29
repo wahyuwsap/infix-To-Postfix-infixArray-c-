@@ -100,8 +100,8 @@ int main(){
     vector<string> infix = KataInfix(input);
     vector<string> postfix = KataPostfix(infix);
     
-    for(const string& hasil: infix){
-        cout << hasil << " ";
+    for(const string& token: infix){
+        cout << token << " ";
         
     }
     cout << endl;
