@@ -1,11 +1,19 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <stack>
 using namespace std;
 
 bool Operator(char c){
     return ( c == '*' || c == '/' || c == '+' || c == '-' || c == '%');
 }
+
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/' || op '%') return 2;
+    return 0;
+}   
+
 vector<string> KataInfix(string str){
     vector<string> infix;
     string angka;
@@ -41,13 +49,63 @@ vector<string> KataInfix(string str){
     return infix;
 }
 
+vector<string> KataPostfix(vector<string>& infix) {
+    vector<string> postfix;
+    stack<string> opStack;
+
+    for (const string& token : infix) {
+        if (isdigit(token[0]) || (token.length() > 1 && isdigit(token[1]))) {
+            postfix.push_back(token);
+        } else if (token == "(") {
+            opStack.push(token);
+        } else if (token == ")") {
+            while (!opStack.empty() && opStack.top() != "(") {
+                postfix.push_back(opStack.top());
+                opStack.pop();
+            }
+            opStack.pop();
+        } else {
+            while (!opStack.empty() && precedence(opStack.top()[0]) >= precedence(token[0])) {
+                postfix.push_back(opStack.top());
+                opStack.pop();
+            }
+            opStack.push(token);
+        }
+    }
+
+while (!opStack.empty()) {
+    postfix.push_back(opStack.top());
+    opStack.pop();
+}
+return postfix;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main(){
     string input;
     getline(cin, input);
+    
     vector<string> infix = KataInfix(input);
+    vector<string> postfix = KataPostfix(infix);
     
     for(const string& hasil : infix){
+        cout << token << " ";
+
+        
         cout << hasil << " ";
+        
     }
     cout << endl;
     return 0;
